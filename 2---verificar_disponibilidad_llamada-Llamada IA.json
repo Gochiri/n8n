@@ -1,0 +1,250 @@
+{
+  "createdAt": "2025-05-21T17:09:09.258Z",
+  "updatedAt": "2025-07-16T15:58:34.900Z",
+  "id": "l8mJbX2Fu3xc8Rcl",
+  "name": "2 - verificar_disponibilidad_llamada",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getFreeSlots",
+        "calendarId": "sifn09COLc5GQOOS3tM7",
+        "startDate": "={{ $json.StartDate }}",
+        "endDate": "={{ $json.EndDate }}",
+        "additionalFields": {
+          "enableLookBusy": true
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "fb228e95-900c-486d-8fe5-7e030c37fc04",
+      "name": "HighLevel1",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "Icu1wucQH6XJTXx1",
+          "name": "HighLevel SELF HOUSE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "857e91e3-a9ff-40da-8b95-5d56e74f1c6e",
+              "name": "appointment_available_ts",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1300,
+        0
+      ],
+      "id": "51df0c75-aea4-4180-96a9-2049bc468993",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.horario_disponible }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "## Gestión de Disponibilidad de Citas  \n\n1. **Análisis de Fechas:**  \n   - Evalúa la disponibilidad de citas para la fecha ingresada.  \n   - Si hay disponibilidad, indica el **rango de horas disponibles** en un formato claro y bien vocalizado.  \n   - Si no hay disponibilidad, responde con: **\"Lo siento, no hay horarios disponibles para esa fecha.\"**  \n\n2. **Formato de Respuesta:**  \n   - Si hay citas:  \n     - Ejemplo: **\"Hay disponibilidad desde las diez de la mañana hasta las dos de la tarde y menciona 3 horarios disponibles.\"**  \n   - Si no hay citas:  \n     - Ejemplo: **\"Lo siento, no hay horarios disponibles para esa fecha, pero tengo otros hoarios disponibles menciona 3 horarios disponibles\"**  \n\n3. **Normas de Comunicación:**  \n   - Siempre vocaliza las horas correctamente, evitando números en formato digital.  \n   - No uses tecnicismos ni respuestas genéricas.  \n   - Sé claro y directo.  \n"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        920,
+        0
+      ],
+      "id": "c9748df9-1ab7-42e9-91b7-f209e8b55110",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        900,
+        220
+      ],
+      "id": "25ef5298-c0df-4405-ae36-ac16f8324b23",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "957c2c57-bc2c-4357-85ce-b0fb212d3e8c",
+              "name": "StartDate",
+              "value": "={{ new Date($json.body.args.date + 'T00:00:00Z').getTime() }}",
+              "type": "string"
+            },
+            {
+              "id": "6adbaca9-36a3-4739-bd96-c25105037ea3",
+              "name": "EndDate",
+              "value": "={{ new Date($json.body.args.date + 'T23:59:59Z').getTime() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "54a5cfec-7612-4a05-acd6-bf2bda3eb30c",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener los datos de entrada del nodo anterior\nconst inputData = $json;\n\n// Extraemos la fecha clave (ej. \"2025-02-04\")\nconst fecha = Object.keys(inputData)[0];\n\n// Verificamos si la fecha y los slots existen\nconst slots = inputData[fecha]?.slots;\n\n// Determinamos la respuesta\nconst horario_disponible = slots && slots.length > 0 ? slots.join(\", \") : \"no hay horarios\";\n\n// Retornamos el resultado\nreturn [{ json: { horario_disponible } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "id": "3ecfbd5d-27ba-4406-8e3b-cf70062bd849",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e3668fb2-74fd-4428-865f-cd115505d902",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "70ceba3d-76bc-412a-a3f4-826b2076b26c",
+      "name": "Webhook",
+      "webhookId": "e3668fb2-74fd-4428-865f-cd115505d902"
+    }
+  ],
+  "connections": {
+    "HighLevel1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "HighLevel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8d846588-725e-464d-9226-4f75fa8a4e9e",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T17:07:57.524Z",
+      "updatedAt": "2025-05-21T17:07:57.524Z",
+      "id": "txzcDqkGqD59hItG",
+      "name": "Llamada IA"
+    }
+  ]
+}
