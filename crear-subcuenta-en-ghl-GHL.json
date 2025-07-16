@@ -1,0 +1,200 @@
+{
+  "createdAt": "2025-05-21T16:48:04.111Z",
+  "updatedAt": "2025-05-21T16:49:20.613Z",
+  "id": "qh9gkU9I3laxPSFw",
+  "name": "Crear subcuenta en GHL",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://rest.gohighlevel.com/v1/locations/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlRaclRITDU2cHM2YXBlVVVWeGxDIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQ0NDg0MjM4NzYwLCJzdWIiOiJtMk9OOTJTUjVycG1yQ01ZWE5oVCJ9.ee3XPoGZjjUOJBPnzZUe1SqwDaEixtf7JUTzLgS5eyM"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"firstName\": \"{{$json['body']['first_name']}}\",\n    \"lastName\": \"{{$json['body']['last_name']}}\",\n    \"phone\": \"{{$json['body']['phone']}}\",\n    \"businessName\": \"{{$json['body']['full_name']}}\",\n    \"snapshot\": {\n        \"id\": \"Z05MRlV9noFauYIVYBL0\",\n        \"type\": \"vertical\"\n    }\n}",
+        "options": {}
+      },
+      "id": "847e6fd0-086c-47c7-8a76-7ebcf7a36435",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "04f9eeec-a3e0-4ea6-8df9-4b5f760b783c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "902f01c9-44bb-4f05-8c09-add2b62ed716",
+      "name": "Webhook",
+      "webhookId": "04f9eeec-a3e0-4ea6-8df9-4b5f760b783c"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "=Bienvenido {{ $json.name }} a Korvance",
+        "message": "=Aqui tienes tus accesos:\n\nhttps://app.masterleads.pro/\n{{ $json.email }}\nContraseña:Scaleup@123\n\nNota: Cambia tu contraeña.",
+        "options": {
+          "senderName": "German de Self House"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1060,
+        0
+      ],
+      "id": "ac22eba3-689f-488a-b915-13b264b95279",
+      "name": "Gmail",
+      "webhookId": "2fe2af50-eef9-43f4-ad98-4135f73dad1e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "VwaWtH7mbGTJdN45",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://rest.gohighlevel.com/v1/users/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlRaclRITDU2cHM2YXBlVVVWeGxDIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQ0NDg0MjM4NzYwLCJzdWIiOiJtMk9OOTJTUjVycG1yQ01ZWE5oVCJ9.ee3XPoGZjjUOJBPnzZUe1SqwDaEixtf7JUTzLgS5eyM"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"firstName\": \"{{ $json.contact.firstName }}\",\n   \"lastName\": \"{{ $json.contact.lastName }}\",\n   \"email\": \"{{ $json.contact.email }}\",\n   \"password\": \"Scaleup@123\",\n   \"type\": \"account\",\n   \"role\": \"admin\",\n   \"locationIds\": [\n       \"{{ $('HTTP Request').item.json.id }}\"\n   ]\n}",
+        "options": {}
+      },
+      "id": "02405834-efa8-4381-8b5f-a7b0f063fcfd",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        780,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/contacts/{{ $('Webhook').item.json.body.contact_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlRaclRITDU2cHM2YXBlVVVWeGxDIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQ0NDg0MjM4NzYwLCJzdWIiOiJtMk9OOTJTUjVycG1yQ01ZWE5oVCJ9.ee3XPoGZjjUOJBPnzZUe1SqwDaEixtf7JUTzLgS5eyM"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        0
+      ],
+      "id": "6c896d0b-4950-4fb2-bb18-e71b327f0185",
+      "name": "HTTP Request2"
+    }
+  ],
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fc6fb457-23c6-4e21-b344-e09f4852b18b",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:40:46.134Z",
+      "updatedAt": "2025-05-21T16:40:46.134Z",
+      "id": "hY92P9vlT9e9Yh6C",
+      "name": "GHL"
+    }
+  ]
+}
