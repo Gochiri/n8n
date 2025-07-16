@@ -1,0 +1,286 @@
+{
+  "createdAt": "2025-05-21T16:44:40.976Z",
+  "updatedAt": "2025-05-21T17:34:54.956Z",
+  "id": "G9kQsGnNOufQlShs",
+  "name": "AI Agent Bull",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": "gpt-4o-2024-08-06",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "2d2d4928-0e34-474b-b31e-9c41aa5e4ea3",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        340,
+        320
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "46c9a5a4-89bc-412f-83fa-dee86d364a84",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "741b54b3-2537-4d68-b0ea-b79f67c1fabf"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "df075aea-bf36-4736-a8c8-dc7195a5696c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        260,
+        100
+      ],
+      "id": "b7cd32fa-3a5d-4817-a8ba-d95f97e83cbe",
+      "name": "Webhook",
+      "webhookId": "df075aea-bf36-4736-a8c8-dc7195a5696c"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.contact_id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        520,
+        360
+      ],
+      "id": "911ea306-ed33-42c0-ad07-bfd6a143e003",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "aipgS7hYuaUdUWzx",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://rest.gohighlevel.com/v1/contacts/{{ $('Webhook').item.json.body.contact_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlRaclRITDU2cHM2YXBlVVVWeGxDIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQ0NDg0MjM4NzYwLCJzdWIiOiJtMk9OOTJTUjVycG1yQ01ZWE5oVCJ9.ee3XPoGZjjUOJBPnzZUe1SqwDaEixtf7JUTzLgS5eyM"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customField\": {\n    \"105aIRoyrRBjJNboTR5I\": \"{{ $('AI Agent').item.json.output }}\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1160,
+        100
+      ],
+      "id": "fdbafa57-ed7b-4954-8aea-217849ee8502",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.customData.message_body }}",
+        "options": {
+          "systemMessage": "=# IDENTIDAD\nSoy Emiliano, asistente de ventas profesional, consultivo y amigable en Self House. Ayudo a realtors a conocer nuestro sistema LeadFlow, resuelvo dudas, manejo objeciones, detecto el nivel de interés y agendo una videollamada estratégica con un asesor para avanzar en la implementación de soluciones de marketing.\n\n# SOBRE SELF HOUSE\nSomos una agencia de marketing y automatizaciones especializada en el sector inmobiliario para realtors. Nuestro método LeadFlow está diseñado para impulsar la captación de leads calificados y generar más de 150 agendas mensuales, a través de embudos de ventas integrados: campañas en Meta Ads, CRM, automatizaciones, VSLs, webinars y formularios de calificación. Transformamos el proceso comercial en algo automatizado, escalable y medible, sin depender únicamente de portales o referidos.\n\n# GUÍA DE ESTILO\n\nRespuestas concisas: máximo tres líneas por respuesta.\n\nTono conversacional, cálido y proactivo, como si conversarás con un colega.\n\nCada respuesta debe dirigir siempre hacia agendar la videollamada, sin hacer múltiples preguntas en una misma respuesta.\n\nUsa expresiones naturales para horarios (por ejemplo: \"a las 10 de la mañana\", \"a las 4 y media de la tarde\", \"al mediodía\").\n\nEmplea emojis solo si aportan cercanía.\n\nNo inventar información que no esté disponible.\n\n# PREGUNTAS FRECUENTES\n\n¿Cuánto cuesta?\n👉 Nuestro servicio es personalizado. Te explicamos detalles y precios en la videollamada, según tu situación actual.\n\n¿Qué incluye el servicio?\n👉 Implementamos un sistema completo: CRM, embudo de ventas, campañas en Meta Ads, scripts, automatizaciones, entrenamiento y soporte durante 90 días.\n\n¿Funciona si soy corredor independiente o una pequeña comercializadora?\n👉 ¡Claro! Nuestro sistema se adapta a distintos niveles de operación.\n\n¿Qué resultados puedo esperar?\n👉 Nuestros clientes logran agendar hasta 150 citas mensuales con leads calificados y listos para cerrar.\n\n# TAREAS Y FLUJO DE CONVERSACIÓN\n\nSaludo Inicial Automático:\n“¡Hola {{user_name}}! Soy Emiliano, de Self House. ¿En qué te puedo ayudar hoy?”\n\nFiltrar Intención del Lead:\n– Pregunta: “¿Buscás escalar tu negocio o automatizar tu proceso comercial?”\n– Pregunta: “¿Sos corredor, comercializadora o desarrolladora?”\n\nDetectar Urgencia y Situación Actual:\n– “¿Cómo generás actualmente tus prospectos?”\n– “¿Cuántas reuniones realizás por semana/mes?”\n\nTransición Natural a la Videollamada:\n“Puedo agendarte una videollamada estratégica sin costo para mostrarte el sistema completo. ¿Te gustaría?”\n\n##Agendar citas\nCuando se requiera agendar una videollamada, responde con un mensaje corto y cálido que incluya el enlace en texto plano, como:\n\n'¡Genial! Te paso el enlace para reservar tu videollamada estratégica: https://link.korvance.com/widget/booking/sifn09COLc5GQOOS3tM7. Te llegará un recordatorio automático antes de la videollamada. ¡Hablamos pronto!'\n\nAsegúrate de que la respuesta tenga como máximo tres líneas y dirija siempre a la videollamada\n\nDespedida Final Tras Agendar:\n“¡Genial! Ya está todo listo. Te enviaremos un recordatorio antes de la videollamada. ¿Hay algo más en lo que pueda ayudarte?”\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        500,
+        100
+      ],
+      "id": "cd9f1c01-37b0-4e01-b9bb-968cbda95d16",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtenemos todos los items de entrada\nconst items = $input.all();\n// Tomamos el primer elemento (índice 0)\nconst firstItem = items[0];\n// Verificamos que exista y que tenga la propiedad \"output\"\nlet text = firstItem?.json?.output || \"\";\n\n// Convertimos el texto a formato conversacional y ordenado\ntext = formatTextConversational(text);\n\n// Dividir el texto en tres partes para crear tres items separados\nconst textParts = divideTextInThreeParts(text);\n\n// Retornamos tres items separados, cada uno con un nombre de propiedad diferente\nreturn [\n  {\n    json: {\n      text1: textParts.part1,\n    }\n  },\n  {\n    json: {\n      text2: textParts.part2,\n    }\n  },\n  {\n    json: {\n      text3: textParts.part3,\n    }\n  }\n];\n\n// Función para formatear el texto de manera conversacional y ordenada\nfunction formatTextConversational(inputText) {\n  // Eliminar cualquier formato de Markdown y backticks si existiera\n  let formattedText = inputText.replace(/[^`]*/g, \"\");\n  formattedText = formattedText.replace(/([^]+)`/g, \"$1\");\n  \n  // Eliminar comillas (tanto dobles como simples)\n  formattedText = formattedText.replace(/[\"']/g, \"\");\n  \n  // PRESERVAR los signos de interrogación y exclamación tanto de apertura como de cierre\n  // No los reemplazamos aquí para mantener la estructura española\n  \n  // Asegurar que los saltos de línea estén como \\n\n  formattedText = formattedText.replace(/\\r\\n|\\r|\\n/g, \"\\\\n\");\n  \n  return formattedText;\n}\n\n// Función específica para español que respeta los signos dobles\nfunction divideTextInThreeParts(inputText) {\n  // Array para almacenar las oraciones completas\n  const sentences = [];\n  \n  // Expresión regular para encontrar oraciones en español\n  // Busca por patrones que terminen en punto, signo de exclamación o interrogación de cierre\n  const regex = /(.?[.!?])\\s/g;\n  let match;\n  \n  // Extraer todas las oraciones usando regex\n  while ((match = regex.exec(inputText)) !== null) {\n    if (match[1].trim() !== \"\") {\n      sentences.push(match[1].trim());\n    }\n    \n    // Verificar si hemos llegado al final del texto\n    if (regex.lastIndex >= inputText.length) {\n      break;\n    }\n  }\n  \n  // Verificar si hay texto restante que no termina con puntuación\n  const remainingText = inputText.substring(regex.lastIndex).trim();\n  if (remainingText) {\n    sentences.push(remainingText);\n  }\n  \n  // Si no se encontraron oraciones, tratar todo el texto como una sola oración\n  if (sentences.length === 0 && inputText.trim()) {\n    sentences.push(inputText.trim());\n  }\n  \n  // Dividir las oraciones en tres partes equilibradas\n  const totalSentences = sentences.length;\n  \n  // Determinar la distribución más equilibrada posible basada en el número de oraciones\n  let distribution;\n  if (totalSentences === 1) {\n    distribution = [1, 0, 0]; // Una oración va a la primera parte\n  } else if (totalSentences === 2) {\n    distribution = [1, 1, 0]; // Dos oraciones: una para cada una de las dos primeras partes\n  } else {\n    // Distribución equilibrada para 3 o más oraciones\n    const baseSize = Math.floor(totalSentences / 3);\n    const remainder = totalSentences % 3;\n    \n    distribution = [baseSize, baseSize, baseSize];\n    \n    // Distribuir las oraciones restantes\n    for (let i = 0; i < remainder; i++) {\n      distribution[i]++;\n    }\n  }\n  \n  // Aplicar la distribución calculada\n  let currentIndex = 0;\n  const part1 = sentences.slice(currentIndex, currentIndex + distribution[0]).join(\" \");\n  currentIndex += distribution[0];\n  \n  const part2 = sentences.slice(currentIndex, currentIndex + distribution[1]).join(\" \");\n  currentIndex += distribution[1];\n  \n  const part3 = sentences.slice(currentIndex, currentIndex + distribution[2]).join(\" \");\n  \n  return { part1, part2, part3 };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        100
+      ],
+      "id": "947cfb6e-65f2-4c51-b1c7-60c5fade3151",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "https://docs.google.com/document/d/1X-h8JTcak33RKEeyEtaxEUA9GUnK-nymgGaB8HQLMCU/edit?tab=t.0"
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        880,
+        360
+      ],
+      "id": "5e19a8ad-6869-43c0-90ba-87c6898d2bac",
+      "name": "Base de Conocimiento",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "YL1v4VVD02fYea7g",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevelTool",
+      "typeVersion": 2,
+      "position": [
+        680,
+        380
+      ],
+      "id": "7be0e650-4d69-479e-a493-961d65b7e8ad",
+      "name": "HighLevel",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "Icu1wucQH6XJTXx1",
+          "name": "HighLevel SELF HOUSE"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base de Conocimiento": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HighLevel": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "c0d8df5b-10e7-4684-88c1-8a01affe472c",
+  "triggerCount": 2,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:40:46.121Z",
+      "updatedAt": "2025-05-21T16:40:46.121Z",
+      "id": "IdumVHryI0258wsL",
+      "name": "OMNICANAL"
+    },
+    {
+      "createdAt": "2025-05-21T16:40:46.134Z",
+      "updatedAt": "2025-05-21T16:40:46.134Z",
+      "id": "hY92P9vlT9e9Yh6C",
+      "name": "GHL"
+    }
+  ]
+}
