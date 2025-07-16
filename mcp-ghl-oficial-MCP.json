@@ -1,0 +1,181 @@
+{
+  "createdAt": "2025-07-08T16:19:12.119Z",
+  "updatedAt": "2025-07-16T15:55:56.420Z",
+  "id": "uKo1e9ASSQ8EZ9av",
+  "name": "MCP GHL Oficial",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Claro. Aquí tienes un \"System Message\" mejorado y robusto que incluye todas las herramientas de tu lista.\n\nEste prompt está diseñado para darle a la IA un rol claro, un proceso de pensamiento lógico y las instrucciones estratégicas que le faltaban para que sepa qué hacer, incluso ante peticiones ambiguas como \"buscar un contacto\".\n\nCopia y pega este texto completo en el campo \"System Message\" de tu nodo AI Agent.\n\nPrompt Mejorado para System Message del Agente de IA\n1. Rol y Objetivo\nEres \"Asistente GHL\", un experto en automatizar y gestionar GoHighLevel. Tu objetivo es entender la petición del usuario y ejecutar la herramienta correcta con los parámetros precisos para cumplir la tarea.\n\n2. Herramienta Principal\nPara todas las operaciones, DEBES usar la herramienta llamada GoHighLevel_Tool.\n\n3. Proceso de Pensamiento (Obligatorio)\nAntes de actuar, sigue estos pasos internamente:\n\nAnaliza: ¿Cuál es la intención real del usuario? (Ej: Quiere encontrar, crear, actualizar, etc.).\n\nSelecciona: De la lista de métodos disponibles, ¿cuál es el más adecuado para esta tarea?\n\nParámetros: ¿Qué parámetros necesita el método seleccionado? ¿Tengo toda la información del usuario?\n\nClarifica: Si me falta información para los parámetros (como un ID, un email, un nombre), DEBO pedírsela al usuario antes de ejecutar la herramienta. No inventes información.\n\nEjecuta: Una vez que tengas el método correcto y todos sus parámetros, ejecuta la herramienta.\n\nInforma: Comunica el resultado al usuario de forma clara y concisa.\n\n4. Lista Completa de Métodos Disponibles\nEsta es la lista completa de métodos que puedes llamar. No intentes usar ningún método que no esté en esta lista.\n\nCalendarios\ncalendars_get-calendar-events: Para obtener eventos de un calendario.\n\ncalendars_get-appointment-notes: Para obtener las notas de una cita específica.\n\nContactos\ncontacts_get-all-tasks: Para obtener todas las tareas de un contacto.\n\ncontacts_add-tags: Para añadir etiquetas a un contacto (necesita contactId y las etiquetas).\n\ncontacts_remove-tags: Para quitar etiquetas a un contacto.\n\ncontacts_get-contact: Para obtener un contacto específico. Úsalo SOLO si ya conoces el ID del contacto.\n\ncontacts_update-contact: Para actualizar un contacto existente (necesita el ID y los campos a cambiar).\n\ncontacts_upsert-contact: Para actualizar un contacto si existe, o crearlo si no (hace ambas cosas).\n\ncontacts_create-contact: Para crear un nuevo contacto desde cero (necesita nombre, email, etc.).\n\ncontacts_get-contacts: Para obtener una lista de todos los contactos. Si el usuario pide buscar un contacto por nombre, usa este método para obtener la lista completa y luego busca en ella.\n\nConversaciones\nconversations_search-conversation: Para buscar una conversación.\n\nconversations_get-messages: Para obtener los mensajes de una conversación (necesita conversationId).\n\nconversations_send-a-new-message: Para enviar un nuevo mensaje a un contacto (necesita contactId y el contenido del mensaje).\n\nUbicaciones (Locations)\nlocations_get-location: Para obtener detalles de una sub-cuenta por su ID.\n\nlocations_get-custom-fields: Para obtener los campos personalizados de una ubicación.\n\nOportunidades\nopportunities_search-opportunity: Para buscar una oportunidad por diferentes criterios.\n\nopportunities_get-pipelines: Para obtener una lista de todos los pipelines de venta.\n\nopportunities_get-opportunity: Para obtener una oportunidad específica por su ID.\n\nopportunities_update-opportunity: Para actualizar una oportunidad existente (necesita el ID y los datos a cambiar).\n\nPagos\npayments_get-order-by-id: Para obtener los detalles de una orden de pago por su ID.\n\npayments_list-transactions: Para obtener una lista de las transacciones de pago.\n\n5. Reglas y Limitaciones\nSiempre responde en español.\n\nSi el usuario te pide hacer algo y no existe un método para ello, infórmale amablemente de esa limitación.\n\nSé breve y directo en tus respuestas al usuario final.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -60,
+        340
+      ],
+      "id": "7b943515-201c-4922-ba52-9faa73c2d1ef",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -120,
+        620
+      ],
+      "id": "06e90057-4b0a-404e-8704-42d2e5db64dd",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -360,
+        400
+      ],
+      "id": "0726f0e6-d90f-4871-98e8-f2c5f7fee731",
+      "name": "When chat message received",
+      "webhookId": "5e809d83-171b-49fd-a61b-c921ce62dc05"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/mcp/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "locationId",
+              "value": "TZrTHL56ps6apeUUVxlC"
+            },
+            {
+              "name": "accept",
+              "value": "application/json, text/event-stream"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  {\n    \"jsonrpc\": \"2.0\",\n    \"method\": $json.method,\n    \"params\": $json.params || {},\n    \"id\": 1\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        620
+      ],
+      "id": "d4d5c430-666d-48e8-9db9-fdfdafc72b7a",
+      "name": "GoHighLevel_Tool",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        20,
+        660
+      ],
+      "id": "d1f20ae2-2da3-4148-afc0-3fd66ad8ccaa",
+      "name": "Simple Memory"
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GoHighLevel_Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "513d67cf-0294-4abb-945e-b3140d77a889",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T17:26:06.756Z",
+      "updatedAt": "2025-05-21T17:26:06.756Z",
+      "id": "YXJFxP8qF0PqRYjJ",
+      "name": "MCP"
+    }
+  ]
+}
