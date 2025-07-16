@@ -1,0 +1,68 @@
+{
+  "createdAt": "2025-05-21T16:47:28.041Z",
+  "updatedAt": "2025-07-16T15:58:53.528Z",
+  "id": "aed4yK85VF56phFW",
+  "name": "Busca Propiedades",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://api.tokkobroker.com/api/v1/property/5967330/?lang=es_ar&format=json&key=PEGATUAPIKEY",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        0
+      ],
+      "id": "094c72e0-b19f-4478-91bf-ce7e31d0087a",
+      "name": "Busca propiedad"
+    },
+    {
+      "parameters": {
+        "path": "b54edc60-00ae-4f43-b885-52a7dee99dfb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cda9f8a0-47b1-418d-b430-338f8f12ea2c",
+      "name": "Webhook",
+      "webhookId": "b54edc60-00ae-4f43-b885-52a7dee99dfb"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Busca propiedad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "c171c38b-fd14-4764-a551-aa09c4ba4176",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:43:54.624Z",
+      "updatedAt": "2025-05-21T16:43:54.624Z",
+      "id": "i8WKzHemnuyhAgSz",
+      "name": "Tokko"
+    }
+  ]
+}
