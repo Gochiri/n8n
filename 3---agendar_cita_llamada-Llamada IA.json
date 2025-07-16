@@ -1,0 +1,216 @@
+{
+  "createdAt": "2025-05-21T17:11:17.355Z",
+  "updatedAt": "2025-07-16T15:58:45.354Z",
+  "id": "B581WWgGdvLtTXAK",
+  "name": "3 - agendar_cita_llamada",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "46ee1aea-4483-415a-a980-0f5d11b15fa3",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1140,
+        20
+      ],
+      "id": "741363f8-63fe-4778-bdd8-95eac9bfc0d5",
+      "name": "Webhook",
+      "webhookId": "46ee1aea-4483-415a-a980-0f5d11b15fa3"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendarId": "sifn09COLc5GQOOS3tM7",
+        "locationId": "={{ $json.locationId }}",
+        "contactId": "={{ $json.id }}",
+        "startTime": "={{ $('Webhook').item.json.body.args.date + 'T' + $('Webhook').item.json.body.args.time + ':00-03:00' }}",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        20
+      ],
+      "id": "12958c73-8ecd-4c57-8755-bd74c3f38dd4",
+      "name": "HighLevel",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "Icu1wucQH6XJTXx1",
+          "name": "HighLevel SELF HOUSE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "contactId": "={{ $('Webhook').item.json.body.call.retell_llm_dynamic_variables.contact_id }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        -900,
+        20
+      ],
+      "id": "ea33b8c0-25d7-48ba-9bde-e7d2596a59cc",
+      "name": "HighLevel1",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "Icu1wucQH6XJTXx1",
+          "name": "HighLevel SELF HOUSE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.status }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "##Tarea\nComenta que su cita ha sido confirmado con éxito"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -420,
+        20
+      ],
+      "id": "2803c438-1ccd-4d4a-91f2-3ab80bbf6d46",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -380,
+        240
+      ],
+      "id": "5edb2494-013b-434d-b4ae-2a08337abe01",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e2153f66-3fa2-4bee-96fe-28f96b1996b5",
+              "name": "=appointment_booked",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "856f4763-3cf6-481c-acc3-3456252dd5f0",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HighLevel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HighLevel1": {
+      "main": [
+        [
+          {
+            "node": "HighLevel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HighLevel": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8d5c3b67-4e38-4a84-a79f-b66786a44f80",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T17:07:57.524Z",
+      "updatedAt": "2025-05-21T17:07:57.524Z",
+      "id": "txzcDqkGqD59hItG",
+      "name": "Llamada IA"
+    }
+  ]
+}
