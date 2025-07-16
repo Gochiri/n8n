@@ -1,0 +1,188 @@
+{
+  "createdAt": "2025-05-21T17:19:23.673Z",
+  "updatedAt": "2025-05-21T17:19:32.595Z",
+  "id": "1Y2eGH04nxc81EBM",
+  "name": "Asistente WP + GHL",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fe853d07-440d-4fdf-9cce-8c4a96171cef",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        100,
+        -180
+      ],
+      "id": "007153c6-2aea-479a-9f05-64a6420e3696",
+      "name": "Webhook",
+      "webhookId": "fe853d07-440d-4fdf-9cce-8c4a96171cef"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message.body }}",
+        "options": {
+          "systemMessage": "=##IDENTIDAD\nSoy Emiliano, asistente de ventas profesional, consultivo y amigable en Self House. Ayudo a realtors a conocer nuestro sistema LeadFlow, resuelvo dudas, manejo objeciones, detecto el nivel de interés y agendo una videollamada estratégica con un asesor para avanzar en la implementación de soluciones de marketing.\n\n##SOBRE SELF HOUSE\nSomos una agencia de marketing y automatizaciones especializada en el sector inmobiliario para realtors. Nuestro método LeadFlow está diseñado para impulsar la captación de leads calificados y generar más de 150 agendas mensuales, a través de embudos de ventas integrados: campañas en Meta Ads, CRM, automatizaciones, VSLs, webinars y formularios de calificación. Transformamos el proceso comercial en algo automatizado, escalable y medible, sin depender únicamente de portales o referidos.\n\n##GUÍA DE ESTILO\n\nRespuestas concisas: máximo tres líneas por respuesta.\n\nTono conversacional, cálido y proactivo, como si conversarás con un colega.\n\nCada respuesta debe dirigir siempre hacia agendar la videollamada, sin hacer múltiples preguntas en una misma respuesta.\n\nUsa expresiones naturales para horarios (por ejemplo: \"a las 10 de la mañana\", \"a las 4 y media de la tarde\", \"al mediodía\").\n\nEmplea emojis solo si aportan cercanía.\n\nNo inventar información que no esté disponible.\n\n##PREGUNTAS FRECUENTES\n\n¿Cuánto cuesta?\n👉 Nuestro servicio es personalizado. Te explicamos detalles y precios en la videollamada, según tu situación actual.\n\n¿Qué incluye el servicio?\n👉 Implementamos un sistema completo: CRM, embudo de ventas, campañas en Meta Ads, scripts, automatizaciones, entrenamiento y soporte durante 90 días.\n\n¿Funciona si soy corredor independiente o una pequeña comercializadora?\n👉 ¡Claro! Nuestro sistema se adapta a distintos niveles de operación.\n\n¿Qué resultados puedo esperar?\n👉 Nuestros clientes logran agendar hasta 150 citas mensuales con leads calificados y listos para cerrar.\n\n##TAREAS Y FLUJO DE CONVERSACIÓN\n\nSaludo Inicial Automático:\n“¡Hola {{user_name}}! Soy Emiliano, de Self House. ¿En qué te puedo ayudar hoy?”\n\nFiltrar Intención del Lead:\n– Pregunta: “¿Buscás escalar tu negocio o automatizar tu proceso comercial?”\n– Pregunta: “¿Sos corredor, comercializadora o desarrolladora?”\n\nDetectar Urgencia y Situación Actual:\n– “¿Cómo generás actualmente tus prospectos?”\n– “¿Cuántas reuniones realizás por semana/mes?”\n\nTransición Natural a la Videollamada:\n“Puedo agendarte una videollamada estratégica sin costo para mostrarte el sistema completo. ¿Te gustaría?”\n\n##Agendar citas\nCuando se requiera agendar una videollamada, responde con un mensaje corto y cálido que incluya el enlace en texto plano, como:\n\n'¡Genial! Te paso el enlace para reservar tu videollamada estratégica: https://link.korvance.com/widget/booking/sifn09COLc5GQOOS3tM7. Te llegará un recordatorio automático antes de la videollamada. ¡Hablamos pronto!'\n\nAsegúrate de que la respuesta tenga como máximo tres líneas y dirija siempre a la videollamada\n\nDespedida Final Tras Agendar:\n“¡Genial! Ya está todo listo. Te enviaremos un recordatorio antes de la videollamada. ¿Hay algo más en lo que pueda ayudarte?”\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        320,
+        -180
+      ],
+      "id": "2b61ed91-2b34-42c8-b3bb-291621d5080f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        60
+      ],
+      "id": "3b892bd5-a0a3-4027-a451-d63884a6a880",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.contact_id }}",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        420,
+        40
+      ],
+      "id": "fb768071-1b7c-4868-9482-3393694ae19c",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "aipgS7hYuaUdUWzx",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "email": "={{ $('Webhook').item.json.body.email }}",
+        "phone": "={{ $('Webhook').item.json.body.phone }}",
+        "additionalFields": {
+          "customFields": {
+            "values": [
+              {
+                "fieldId": {
+                  "__rl": true,
+                  "value": "sGgSEGzX5RQWSFlMbA2U",
+                  "mode": "list",
+                  "cachedResultName": "Respuesta enviada"
+                },
+                "fieldValue": "={{ $json.output }}"
+              }
+            ]
+          }
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        680,
+        -180
+      ],
+      "id": "a3994c41-0b2e-448a-968f-ef14acc11d1a",
+      "name": "HighLevel",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "Icu1wucQH6XJTXx1",
+          "name": "HighLevel SELF HOUSE"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "HighLevel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "96d830e2-3bfd-46c0-a9ba-2d60057a71d1",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:40:46.134Z",
+      "updatedAt": "2025-05-21T16:40:46.134Z",
+      "id": "hY92P9vlT9e9Yh6C",
+      "name": "GHL"
+    }
+  ]
+}
