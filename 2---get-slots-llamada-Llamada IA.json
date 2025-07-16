@@ -1,0 +1,183 @@
+{
+  "createdAt": "2025-05-21T17:08:00.996Z",
+  "updatedAt": "2025-07-16T15:58:28.179Z",
+  "id": "wUOjPUvvdAxoVsYV",
+  "name": "2 - get slots llamada",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getFreeSlots",
+        "calendarId": "sifn09COLc5GQOOS3tM7",
+        "startDate": "={{ $json.StartDate }}",
+        "endDate": "={{ $json.EndDate }}",
+        "additionalFields": {
+          "enableLookBusy": true
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        460,
+        0
+      ],
+      "id": "3023b408-c86f-440d-8f0c-77a86eefac10",
+      "name": "HighLevel1",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "Icu1wucQH6XJTXx1",
+          "name": "HighLevel SELF HOUSE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "857e91e3-a9ff-40da-8b95-5d56e74f1c6e",
+              "name": "appointment_available_ts",
+              "value": "={{ $json.horarios_disponibles }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        0
+      ],
+      "id": "d7272fa1-a3cb-4fd0-8cca-b4c8b28ada2f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "957c2c57-bc2c-4357-85ce-b0fb212d3e8c",
+              "name": "StartDate",
+              "value": "={{ new Date($json.body.args.date + 'T00:00:00Z').getTime() }}\n\n",
+              "type": "string"
+            },
+            {
+              "id": "6adbaca9-36a3-4739-bd96-c25105037ea3",
+              "name": "EndDate",
+              "value": "={{ new Date($json.body.args.date + 'T23:59:59Z').getTime() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "b4edb97a-d8e1-4f03-a098-d7a4e69c2f26",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cf532b83-b4a3-4100-91f0-0e0516e00013",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0a12194d-7690-4eaa-9896-67fcb7f687c1",
+      "name": "Webhook",
+      "webhookId": "cf532b83-b4a3-4100-91f0-0e0516e00013"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener los datos de entrada del nodo anterior\nconst inputData = $json;\n// Objeto para almacenar los resultados de todas las fechas\nconst resultados = {};\n\n// Iterar sobre todas las fechas en el objeto de entrada\nObject.keys(inputData).forEach(fecha => {\n  // Verificamos si la fecha y los slots existen\n  const slots = inputData[fecha]?.slots;\n  // Guardamos los horarios disponibles para esta fecha\n  resultados[fecha] = slots && slots.length > 0 ? slots.join(\", \") : \"no hay horarios\";\n});\n\n// Retornamos el resultado con todas las fechas procesadas\nreturn [{ json: { horarios_disponibles: resultados } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        0
+      ],
+      "id": "8d8e6764-158c-4598-b909-84b555bcbad5",
+      "name": "Code"
+    }
+  ],
+  "connections": {
+    "HighLevel1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "HighLevel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "25891b26-8a09-4677-8dd0-aa1def4511c0",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T17:07:57.524Z",
+      "updatedAt": "2025-05-21T17:07:57.524Z",
+      "id": "txzcDqkGqD59hItG",
+      "name": "Llamada IA"
+    }
+  ]
+}
