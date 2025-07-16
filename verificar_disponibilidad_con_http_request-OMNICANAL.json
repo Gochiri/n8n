@@ -1,0 +1,149 @@
+{
+  "createdAt": "2025-07-03T18:43:35.605Z",
+  "updatedAt": "2025-07-03T18:46:00.885Z",
+  "id": "PnE73c7ZvRpHafUN",
+  "name": "verificar_disponibilidad_con_HTTP_Request",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "id": "1c10abef-7336-446c-84a0-281671ad76e4",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Código de diagnóstico para n8n\nfunction processItem(item) {\n  try {\n    // Input original\n    const originalInput = item.json.query;\n    \n    // Convertir a fecha y obtener timestamp\n    const date = new Date(originalInput);\n    const timestamp = date.getTime();\n    \n    // Información detallada para diagnóstico\n    item.json.diagnosis = {\n      originalInput,\n      parsedDate: date.toString(),\n      timestamp,\n      isoString: date.toISOString(),\n      utcString: date.toUTCString(),\n      components: {\n        year: date.getFullYear(),\n        month: date.getMonth() + 1,\n        day: date.getDate(),\n        hours: date.getHours(),\n        minutes: date.getMinutes(),\n        seconds: date.getSeconds(),\n        timezoneOffset: date.getTimezoneOffset()\n      }\n    };\n    \n    // Mantener el resultado esperado\n    item.json.StartDate = timestamp;\n    item.json.EndDate = timestamp + (24 * 60 * 60 * 1000); // 24 horas después\n    \n  } catch (error) {\n    item.json.error = `Error: ${error.message}`;\n  }\n  \n  return item;\n}\n\nreturn items.map(processItem);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        300,
+        0
+      ],
+      "id": "b8c93143-ef4d-4cc5-813a-3a94bef233aa",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa868d98-7a82-40cd-a05c-051028be86b1",
+              "name": "StartDate",
+              "value": "={{ $json.StartDate}}",
+              "type": "string"
+            },
+            {
+              "id": "94cffcdc-de50-4b5c-b4c2-8c6a3d7cd64c",
+              "name": "EndDate",
+              "value": "={{ $json.EndDate}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        580,
+        0
+      ],
+      "id": "87395922-da21-4006-9097-74d9d6131d83",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/appointments/slots?calendarId=7Z2mPnRyiEzhzlOg494a&startDate={{ $json.StartDate}}&endDate={{ $json.EndDate}}&timezone=America/Lima",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6InRJS3ZSd01WellUMkwzMkxtb1ZFIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQ3MjU5NTA3OTgwLCJzdWIiOiJ4YUJMbTZEVVlaMlFobHdldEpVOCJ9.TwseoufyBBDRCUcF9w_3VYBQ6pF9tFUiTQfxBEBl4kM"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        860,
+        0
+      ],
+      "id": "ae6313c3-89ed-476c-a0f4-eef6ada72114",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "b47ac2f3-75e3-4e79-8779-bf5244f51000",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:40:46.121Z",
+      "updatedAt": "2025-05-21T16:40:46.121Z",
+      "id": "IdumVHryI0258wsL",
+      "name": "OMNICANAL"
+    }
+  ]
+}
