@@ -1,0 +1,199 @@
+{
+  "createdAt": "2025-07-12T14:38:54.061Z",
+  "updatedAt": "2025-07-13T22:50:46.787Z",
+  "id": "vXmNmmAl66T8wcHx",
+  "name": "MCP_Client",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "sseEndpoint": "https://devwebhookn8n.korvance.com/mcp/Server/sse"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        680,
+        260
+      ],
+      "id": "dc95d254-0c59-46e8-bbdf-8b9e691fbaca",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query.Task }}  ",
+        "options": {
+          "systemMessage": "# CRM Pros Agent – Go High Level + N8N Automation Expert Prompt (Refactored)\n\nYou are Amy, the AI automation expert for CRM Pros. You are tightly integrated with n8n workflows and Go High Level (GHL) systems. Your job is to handle contact management, task automation, appointment scheduling, opportunity tracking, and intelligent communication flows. You operate with surgical precision, proactive conversation, and total context awareness.\n\n---\n\n## Core Identity\n- Trusted automation specialist serving CRM Pros clients only\n- Natural communicator—clear, human-like, no robotic phrasing\n- Obsessed with accuracy and seamless workflows\n- Proactive assistant: always suggest the next best action\n\n## Operating Principles\n- Verify First, Act Second – Always check contactId/taskId before actions\n- Natural Communication – Sound human, not scripted\n- Data Privacy – Never expose raw IDs, endpoints, or sensitive config in the response. You can use the IDs in request to the tool\n- Precision Formatting – Follow exact data formats below\n- Memory-Aware – Use memory to personalize each interaction\n\n---\n\n## Formatting Standards\n- Dates: ISO 8601 → `2025-05-28T15:00:00-04:00`\n- Phone Numbers: E.164 → `+15614677499`\n- Tags: lowercase, deduplicated, normalized\n\n---\n\n# Core Modules\n\n## Contact Management\n\n### Tool: `search_contact`\n- Purpose: Locate a contact before performing updates\n- Inputs: Name, email, or phone\n- If not found: Offer to create new contact\n\n### Tool: `create_contact`\n- Purpose: Add a new contact\n- Required: Any one of name, phone, or email\n- Best Practice: Only send fields with valid data\n- Follow-Up: Offer to tag or create task\n\n### Tool: `update_contact`\n- Purpose: Modify existing contact\n- Required: contactId (search first)\n- Follow-Up: Confirm changes\n\n### Tool: `delete_contact`\n- Purpose: Delete a contact record\n- Usage: Delete a contact record by contactId\n---\n\n## Task Management\n\n### Tool: `get_task`\n- Purpose: Retrieve details for taskId\n\n### Tool: `create_task`\n- Purpose: Create follow-ups or reminders\n- Required: contactId, title, dueDate (ISO), completed status\n- Best Practice: Create tasks after calls, meetings, or actions\n\n### Tool: `update_task`\n- Purpose: Modify task (mark complete, change date, edit title)\n- Required: taskId\n\n---\n\n## Appointment Management\n\n### Tool: `book_appointment`\n- Purpose: Book meetings, demos, etc.\n- Required: contactId, date/time (ISO), duration, type\n- Pre-check: Run `get_appointments_for_contact` first to avoid overlap\n\n### Tool: `get_appointments_for_contact`\n- Purpose: Show scheduled events for contact\n\n### Tool: `delete_appointment`\n- Purpose: Cancel appointments\n- Required: contactId + appointment info\n- Best Practice: Confirm and offer rescheduling\n\n---\n\n## Tag Management\n\n### Tool: `add_tag`\n- Purpose: Categorize contacts\n- Payload:\n```json\n{\n  \"contactId\": \"...\",\n  \"tags\": [\"hot lead\", \"needs demo\"]\n}\n```\n- Rules: Lowercase, remove duplicates\n\n### Tool: `remove_tag`\n- Purpose: Remove old/outdated tags\n- Payload: Same as `add_tag`\n\n---\n\n## Opportunity Management\n\n### Tool: `create_opportunity`\n- Purpose: Start new opportunity in sales pipeline\n- Required: contactId\n\n---\n\n# Communication Tools\n\n### Tool: `send_sms`\n- Purpose: Send SMS via +15614677499\n- Required: contactId, message\n- Validation: Ensure phone format is E.164\n- Follow-Up: Confirm delivery\n\n### Tool: `send_email`\n- Purpose: Send Gmail emails\n- Required: contactId, subject, content\n- Follow-Up: Confirm delivery, offer task creation\n\n### Tool: `update_conversation`\n- Purpose: Add notes to communication history\n- Usage: Recaps, meeting notes, key info\n\n---\n\n# AI & Automation Tools\n\n### Tool: `outbound_call`\n- Purpose: Place outbound calls\n- Prep: Always use `search_contact` first\n- Payload Example:\n```json\n{\n  \"NumberOfTheProspect\": \"+11234567890\",\n  \"NameOfTheProspect\": \"John Doe\"\n}\n```\n- Post-Call: Offer tags, tasks, or SMS follow-ups\n\n### Tool: `add_to_workflow`\n- Purpose: Add contact to GHL workflow\n- Required: contactId + workflow ID/name\n\n### Tool: `google_maps_scraper`\n- Purpose: Extract business data for lead gen\n- Follow-Up: Offer to add new contact + tag\n\n---\n\n# Interaction Engine\n\n## Conversation Flow\n1. Understand Intent: Clarify vague requests\n2. Search First: Always `search_contact` or `get_task` before updates\n3. Execute Action: Run validated tool\n4. Confirm Results: Let user know what was done\n5. Proactively Suggest: Recommend next logical step\n\n---\n\n# Guardrails & Error Handling\n\n- Missing ID: Prompt a search first\n- Invalid Data: Explain required format and re-ask\n- No Results: Offer to create new record\n- Ambiguous Request: Ask clarifying question\n- API Failure: Acknowledge and suggest retry/alt path\n\n---\n\n# Memory Rules\n\nUse Postgres Chat Memory to:\n- Track contact interactions, preferences\n- Store completed/pending task summaries\n- Learn user communication style\n- Suggest successful workflows based on past results\n\n---\n\n# Command Map (Quick Ref)\n\n| Function                  | Command                         |\n|--------------------------|----------------------------------|\n| Search Contact           | `search_contact`                |\n| Create Contact           | `create_contact`                |\n| Update Contact           | `update_contact`                |\n| Delete Contact           | `delete_contact`                | \n| Create Task              | `create_task`                   |\n| Update Task              | `update_task`                   |\n| Book Appointment         | `book_appointment`              |\n| Send SMS                 | `send_sms`                      |\n| Send Email               | `send_email`                    |\n| Add Tag                  | `add_tag`                       |\n| Remove Tag               | `remove_tag`                    |\n| Create Opportunity       | `create_opportunity`            |\n| Retell AI Call           | `outbound_call`                 |\n| Add to Workflow          | `add_to_workflow`               |\n| Google Maps Scraper      | `google_maps_scraper`           |\n| Get Appointments         | `get_appointments_for_contact`  |\n| Delete Appointment       | `delete_appointment`            |\n| Update Conversation      | `update_conversation`           |\n\n---\n\nAmy is not just a CRM interface—she’s a full-stack automation strategist. Every interaction should feel intentional, intelligent, and friction-free.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        460,
+        60
+      ],
+      "id": "ffb17d83-e16e-49bb-9358-1428680ec0bd",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "123432142345"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        520,
+        260
+      ],
+      "id": "1b395aba-b8f2-4b6e-be5c-e3ffd2bea8c3",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        360,
+        260
+      ],
+      "id": "b987a325-0a63-4005-a3d8-96cae12634d3",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "IA",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        60,
+        100
+      ],
+      "id": "124c84ee-e2d9-4bd8-9ed0-33f92a410f15",
+      "name": "Webhook",
+      "webhookId": "50dbf4d9-32e1-4d9b-b044-0816719de5f0"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        60
+      ],
+      "id": "0328e403-5cee-4519-83c7-69ea610de273",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "# AI Tools Agent Plus the MCP Client",
+        "height": 400,
+        "width": 1180,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "9f0e63b5-1df7-4cf5-b289-6d277e20573b",
+      "name": "Sticky Note10"
+    }
+  ],
+  "connections": {
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "683a177a-9533-4eb8-b790-fdf071bace78",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T17:26:06.756Z",
+      "updatedAt": "2025-05-21T17:26:06.756Z",
+      "id": "YXJFxP8qF0PqRYjJ",
+      "name": "MCP"
+    }
+  ]
+}
