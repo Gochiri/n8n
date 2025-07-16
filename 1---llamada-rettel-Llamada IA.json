@@ -1,0 +1,82 @@
+{
+  "createdAt": "2025-05-21T17:12:06.800Z",
+  "updatedAt": "2025-07-16T15:58:40.425Z",
+  "id": "SgBbk0oA48iC5TVT",
+  "name": "1 - Llamada Rettel",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.retellai.com/v2/create-phone-call",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer key_25cd026d4536eced6edb284125b0"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"from_number\": \"+5491130270115\",\n  \"to_number\": \"{{ $json.body.phone }}\",\n  \"override_agent_id\": \"agent_526112965e5107fe09f6a0d9ac\",\n  \"retell_llm_dynamic_variables\": {\n    \"user_name\": \"{{ $json.body.first_name }}\",\n    \"user_email\": \"{{ $json.body.email }}\",\n  \"contact_id\" : \"{{ $json.body.contact_id }}\"\n  }\n}\n\n\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        380,
+        0
+      ],
+      "id": "f8a80b24-f182-4705-b93c-78820257d616",
+      "name": "LLAMADA RETTEL"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a04d11bf-556a-48a6-8395-e1b41772844f",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "da6813f3-95aa-4fff-813e-09bd0784367c",
+      "name": "Webhook",
+      "webhookId": "a04d11bf-556a-48a6-8395-e1b41772844f"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "LLAMADA RETTEL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "84ebd55d-e4c9-4795-a0ff-e8eeba78e6c3",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T17:07:57.524Z",
+      "updatedAt": "2025-05-21T17:07:57.524Z",
+      "id": "txzcDqkGqD59hItG",
+      "name": "Llamada IA"
+    }
+  ]
+}
