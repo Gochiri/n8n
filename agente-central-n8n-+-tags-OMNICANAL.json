@@ -1,0 +1,623 @@
+{
+  "createdAt": "2025-05-21T16:40:56.123Z",
+  "updatedAt": "2025-05-21T16:42:54.639Z",
+  "id": "kMtBPiAeMEzKruHA",
+  "name": "Agente central n8n + TAGS",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=confirmar la cita",
+        "options": {
+          "systemMessage": "=##Rol\nEres Cami, la asistente virtual de ScaleUp AI especializada en soluciones de inteligencia artificial para el sector inmobiliario. Cuentas con más de 3 años de experiencia ayudando a agencias inmobiliarias a optimizar sus procesos, aumentar su captación de leads y mejorar sus tasas de conversión mediante tecnología avanzada.\nObjetivo\nTu principal objetivo es brindar información sobre los servicios de ScaleUp AI para inmobiliarias, entender las necesidades específicas de cada potencial cliente, manejar objeciones y agendar reuniones virtuales con el equipo especializado.\n\n-No menciones agencias inmobiliarias solo \"inmobiliarias\"\n-Respuestas CORTAS MAXIMO 7 LINEAS\n\n##Tareas\n- Responder consultas sobre las soluciones de IA para inmobiliarias\n- Guiar a las inmobiliarias cuando no sepan qué tipo de automatización necesitan\n- Explicar los beneficios concretos de implementar IA en el sector inmobiliario\n- Generar citas calificadas con el equipo de consultores\nCrear una experiencia conversacional amigable, profesional y persuasiva\n\n##Añadir etiquetas\n\n-Añade etiquetas dependiendo a lo que el usuario necesita, usando la función \"add_tags\" y añade una sola etiqueta\nLas etiquetas usaras es \n- reprogramar (es cuando quiere reprogramar)\n- confirmado (es cuando confirma la cita)\nenvialo como query una de las etiquetas dependiendo la situacion\n\n##Proceso de Conversación\n\n1. Saludo inicial y presentación\n\nPreséntate como Cami de ScaleUp AI\n\n2. Primera exploración\n\n¿Cuentame actualmente que tipo de proyectos estan comercializando?\n\n3. Exploración de necesidades\n\n\"¿Qué aspecto de tu proceso de ventas te gustaría mejorar?\n\n4. Herramientas:\n¿Qué herramientas o sistemas están utilizando actualmente?\"\n\n5. Invita a agendar cita.\n\n##Presentación de solución\n\nDescribe la solución específica de ScaleUp AI que resuelve su problema\nMenciona casos de éxito similares (sin inventar información)\nExplica el proceso de implementación y tiempo estimado (14 días)\n\n\n##Manejo de objeciones\n\nResponde a sus preocupaciones de manera directa y persuasiva\nUtiliza datos concretos sobre ROI y resultados\n\n\n##Agendamiento de cita\n\n- Siempre menciona que la atencion es de Lunes a Viernes\n1. \"¿Cuál sería el mejor día y hora para ti?, recuerda nuestra atención es de Lunes a Viernes de 9 am a 6 pm\" para buscar citas disponibles, Activar la función verificar_disponibilidad para comprobar si existen horarios disponibles de acuerdo a lo que se menciono.\n\n- El horario disponible lo encontraras cuando verifiques la disponiblidad usa esa informacion\n\nFecha: {{$now}}\n\n4. Confirma la fecha, hora y zona horaria seleccionada por el usuario:\n\"Excelente, Solo para confirmar, deseas agendar la cita el ... a las ...\".\n\n- No proporciones ningun enlace \n4. Activar la funcion agendar_cita\n\n\n##Información sobre ScaleUp AI\n\nQuiénes somos\nScaleUp AI es una empresa especializada en desarrollar soluciones de inteligencia artificial personalizadas para el sector inmobiliario. Nuestro enfoque se centra en eliminar tareas repetitivas, optimizar procesos de venta y aumentar la eficiencia operativa de agencias inmobiliarias.\nNuestras soluciones para inmobiliarias\nSistema de IA Inmobiliario - Componentes:\n\nAsistentes virtuales: Automatización de respuestas 24/7 para consultas sobre propiedades\nCalificación de leads: Identificación automática de prospectos con mayor probabilidad de compra\nSeguimiento automatizado: Comunicación personalizada con potenciales clientes\nAnálisis predictivo: Identificación de tendencias del mercado y oportunidades de venta\nDashboard centralizado: Control y visualización de KPIs en tiempo real\n\nPor qué elegirnos\n\nTiempo de implementación: 14 días\nROI Promedio: 150%\nClientes Satisfechos: 15+ agencias inmobiliarias\nHoras ahorradas: 78,000+ en tareas administrativas\nIncremento promedio en citas: 35%\nAumento en tasa de conversión: 25%\n\nNuestro proceso\n\nOnboarding:\n\nPortal del cliente para centralizar recursos e información\nGrupo de WhatsApp para comunicación directa con equipo técnico\n\n\nAnálisis:\n\nDetección de cuellos de botella en el proceso de venta inmobiliaria\nMapeo de la experiencia del cliente y puntos de fricción\n\n\nImplementación:\n\nPuesta en marcha de automatizaciones y sistemas\nIntegración con CRM y herramientas existentes\n\n\nCapacitación y soporte:\n\nFormación para el equipo inmobiliario\nSoporte continuo y optimización\n\n\n\n##Manejo de Objeciones\n\"El costo parece muy alto para nuestra agencia\"\n\"Entiendo tu preocupación por la inversión. Nuestras soluciones están diseñadas para adaptarse al tamaño de tu agencia inmobiliaria. Los clientes del sector inmobiliario han experimentado un ROI promedio del 150%, principalmente por el aumento en citas efectivas y la reducción de tiempo en tareas administrativas. ¿Te gustaría conocer cómo hemos ayudado a agencias similares a la tuya?\"\n\"¿Podrías decirme el precio antes de agendar una reunión?\"\n\"Entiendo tu interés en conocer el precio. Nuestras soluciones de IA para inmobiliarias son personalizadas según el volumen de propiedades, número de agentes y procesos específicos de cada agencia. Agendar una reunión nos permite entender mejor tus necesidades y ofrecerte una propuesta ajustada que garantice el mejor retorno. ¿Te parece si coordinamos una demostración sin compromiso para analizar tu caso específico?\"\n\"No tengo tiempo para implementar nuevas tecnologías ahora\"\n\"Comprendo que gestionar una agencia inmobiliaria requiere mucho tiempo. Precisamente nuestras soluciones están diseñadas para ahorrarte tiempo y mejorar la eficiencia. La implementación toma solo 14 días y requiere mínima intervención de tu equipo. ¿Podríamos agendar una breve reunión para mostrarte cómo nuestra implementación no interrumpirá tus operaciones diarias?\"\n\"No veo cómo la IA puede ayudar al negocio inmobiliario\"\n\"Es una duda común. Hemos trabajado con varias agencias inmobiliarias que inicialmente tenían la misma inquietud. Por ejemplo, una agencia logró aumentar su captación de leads en un 40% y reducir el tiempo de respuesta a clientes de horas a minutos. ¿Te gustaría que agendemos una sesión para mostrarte ejemplos prácticos aplicados específicamente al sector inmobiliario?\"\n\"Nos preocupa la seguridad de los datos de nuestros clientes\"\n\"La seguridad es nuestra prioridad. Utilizamos protocolos de cifrado de alto nivel y cumplimos con todas las normativas de protección de datos. Toda la información de propiedades y clientes se maneja con la máxima confidencialidad. ¿Te gustaría que en nuestra reunión incluyamos a un especialista en seguridad para resolver tus inquietudes específicas?\"\nAgendamiento de Citas\nPara agendar:\n\"¿Te parece si agendamos una demostración virtual para profundizar en cómo podemos ayudar a tu agencia inmobiliaria? Tenemos disponibilidad este martes a las diez de la mañana o jueves a las tres y media de la tarde. ¿Qué horario te resultaría más conveniente?\"\nConfirmación:\n\"Excelente, entonces confirmamos nuestra reunión para el [día] a las [hora]. Te enviaré un correo con el enlace y un recordatorio previo. ¿Hay algún aspecto específico de tu operación inmobiliaria que te gustaría que abordemos con mayor detalle durante la sesión?\"\nCierre sin agendamiento:\n\"Entiendo que prefieres pensarlo. ¿Te parece si te envío información adicional sobre casos de éxito con agencias inmobiliarias similares a la tuya? También puedo contactarte en unos días para resolver cualquier duda que pueda surgir.\"\n\n##Guías de Estilo\n\nSé breve y puntual en tus interacciones.\nUsa lenguaje cotidiano y profesional, como si estuvieras hablando con un colega del sector inmobiliario.\nSé proactiva: lidera la conversación y concluye con preguntas o sugerencias de próximos pasos.\nAdapta tu comunicación al nivel de conocimiento técnico que muestre el interlocutor.\nUtiliza ejemplos específicos del sector inmobiliario.\nEvita usar jerga técnica excesiva sin explicación.\n\n##Notas Importantes\n\nNUNCA menciones precios específicos de servicios - esto se discute en la reunión de consultoría.\nNo inventes información que no esté incluida en este prompt.\nNo hagas promesas que no se puedan cumplir.\nSi no conoces algún dato específico, admítelo transparentemente y ofrece verificarlo.\nSiempre enfoca la conversación hacia agendar una reunión de consultoría personalizada.\n"
+        }
+      },
+      "id": "72e267cf-a78a-443c-8709-76b5e22abebf",
+      "name": "AI AGENT",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        320,
+        0
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        40,
+        240
+      ],
+      "id": "72d80153-4d61-4cfa-be14-c8b4965e4592",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.contact_id }}",
+        "tableName": "n8n_chat_scaleupaiapi"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        100,
+        360
+      ],
+      "id": "add2d799-95eb-4ed5-8695-10c922759742",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "aipgS7hYuaUdUWzx",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://rest.gohighlevel.com/v1/contacts/{{ $('Webhook').item.json.body.contact_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6InRJS3ZSd01WellUMkwzMkxtb1ZFIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQzMTk5MTQxODA0LCJzdWIiOiJ4YUJMbTZEVVlaMlFobHdldEpVOCJ9.85xk5IYB0oXIYdrflhVGJCE0xDf0hlqeD4yicnvLDBE"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customField\": {\n    \"rTU1WcmUza0MzFhq7d4x\": \"{{ $json.parte1 }}\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        0
+      ],
+      "id": "f143baec-bf6d-4b25-b64a-efcc4066fa9b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Código simple para n8n - Dividir el mensaje en 3 partes\n// Para usar en un nodo Function de n8n\n\nfunction processItem(item) {\n  // Obtener el mensaje original\n  const mensaje = item.json.output || \"\";\n  \n  // Calcular la longitud aproximada de cada parte\n  const longitud = mensaje.length;\n  const longitudParte = Math.ceil(longitud / 3);\n  \n  // Dividir el mensaje en 3 partes\n  const parte1 = mensaje.substring(0, longitudParte);\n  const parte2 = mensaje.substring(longitudParte, longitudParte * 2);\n  const parte3 = mensaje.substring(longitudParte * 2);\n  \n  // Guardar las partes en el objeto item.json\n  item.json.parte1 = parte1;\n  item.json.parte2 = parte2;\n  item.json.parte3 = parte3;\n  \n  return item;\n}\n\n// Procesar cada item en los datos\nreturn items.map(processItem);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        740,
+        0
+      ],
+      "id": "837aaadb-bbe7-44b3-be0f-185bb2ccaca0",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "beb4e5e0-a15b-4c4d-a302-753fbd080c18",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "440cecda-20f0-4051-9e5a-15d452c1eec4",
+      "name": "Webhook",
+      "webhookId": "beb4e5e0-a15b-4c4d-a302-753fbd080c18"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        240,
+        380
+      ],
+      "id": "d9d9f3aa-81d7-4a6e-bd3d-c3c696cc58a8",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "jesus@uscaleup.com",
+          "mode": "list",
+          "cachedResultName": "jesus@uscaleup.com"
+        },
+        "start": "={{ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "attendees": [
+            "jesus@uscaleup.com"
+          ],
+          "summary": "={{ $json.body.first_name }} and Scaleup AI"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        540,
+        380
+      ],
+      "id": "fb150eaf-505f-4b95-9d86-dbd71a34652f",
+      "name": "Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "dOvIc5Im8iYzouE2",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "jesus@uscaleup.com",
+          "mode": "list",
+          "cachedResultName": "jesus@uscaleup.com"
+        },
+        "timeMin": "={{ $fromAI('Start_Time', ``, 'string') }}",
+        "timeMax": "={{ $fromAI('End_Time', ``, 'string') }}",
+        "options": {
+          "timezone": {
+            "__rl": true,
+            "value": "America/Lima",
+            "mode": "list",
+            "cachedResultName": "America/Lima"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        380,
+        400
+      ],
+      "id": "edc29105-fe83-4e72-975f-946e1d4ff6d7",
+      "name": "Google Calendar1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "dOvIc5Im8iYzouE2",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "\"Llama a esta función cuando debas etiquetar al usuario por lo siguiente:\n\nreagendado\nconfirmado\"",
+        "method": "POST",
+        "url": "=https://rest.gohighlevel.com/v1/contacts/QbT0I6zYyrceCDI3b7mL/tags/",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Authorization\t",
+              "valueProvider": "fieldValue",
+              "value": "=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6InRJS3ZSd01WellUMkwzMkxtb1ZFIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQ3MjU5NTA3OTgwLCJzdWIiOiJ4YUJMbTZEVVlaMlFobHdldEpVOCJ9.TwseoufyBBDRCUcF9w_3VYBQ6pF9tFUiTQfxBEBl4kM"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"tags\": [\n    \"\"\n  ]\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        900,
+        360
+      ],
+      "id": "780d25a3-377e-464b-96f5-e36ce573005f",
+      "name": "add_tags"
+    },
+    {
+      "parameters": {
+        "name": "add_tags",
+        "description": "\"Llama a esta función cuando debas etiquetar al usuario por lo siguiente:\n\nreagendado\nconfirmado\"",
+        "workflowId": {
+          "__rl": true,
+          "value": "TBAWCNoUXFLSPhcD",
+          "mode": "list",
+          "cachedResultName": "añadir etiquetas"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        360
+      ],
+      "id": "c3937ba1-3055-492d-97eb-e83648d9eee3",
+      "name": "add_tags1"
+    }
+  ],
+  "connections": {
+    "AI AGENT": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI AGENT",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI AGENT",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI AGENT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI AGENT",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI AGENT",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI AGENT",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add_tags1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI AGENT",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "devn8n.uscaleup.ai",
+            "user-agent": "axios/1.7.7",
+            "content-length": "7360",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.59.74.153",
+            "x-forwarded-host": "devn8n.uscaleup.ai",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "85ba6940f757",
+            "x-real-ip": "34.59.74.153"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Request more information": "",
+            "Company": "",
+            "Google: Reseña negativa": "",
+            "DNI": "",
+            "Fecha de nacimiento": "",
+            "Método de Pago": "",
+            "Genero": "",
+            "Tamaño (M2)": "",
+            "¿En Qué Precio Te Gustaría Vender?": "",
+            "Acepto La Política De Privacidad": "",
+            "¿Es Negociable?": "",
+            "Tipo de propiedad": "",
+            "¿Dónde se encuentra?": "",
+            "Estado": "",
+            "¿A qué precio te gustaría vender? ": "",
+            "20FL Step 1. Your URL Of Landing Page\t": "",
+            "20FL Step 4. Your Booking Link\t": "",
+            "20FL Step 2. Your sending from name\t": "",
+            "20FL Step 3. Your sending from email address\t": "",
+            "02 CS Your Sending From Email Address\t": "",
+            "01 CS Your Sending From Name\t": "",
+            "03 Cold Email CTA Link\t": "",
+            "04 Cold Email \"The Offer\"\t": "",
+            "05 Cold Email \"How it Helps\"\t": "",
+            "facebook_url": "",
+            "youtube_url": "",
+            "twitter_url": "",
+            "instagram_url": "",
+            "linkedin_url": "",
+            "Intro By AI": "",
+            "Subject": "",
+            "AI Summary": "",
+            "Google Analytics": "",
+            "Google Tag Manager": "",
+            "Facebook Pixel": "",
+            "Position": "",
+            "CMS": "",
+            "Last Communication Type": "",
+            "Message History": "",
+            "Received Message Holder": "",
+            "Bot Latest Auto Response": "",
+            "AI Recording Link": "",
+            "Call Duration": "",
+            "Business Industry": "",
+            "AI Opening Message": "",
+            "AI Transcript": "",
+            "ConfirmedAppointment": "",
+            "Conversation Summary": "",
+            "Latest AI Response": "",
+            "¿Cuál es aproximadamente la inversión publicitaria mensual de la empresa?": "",
+            "¿Cuántos vendedores tiene actualmente en tu equipo?": "",
+            "Si con esta I.A pudieras contactar a los leads de forma más efectiva y rápida, ¿cuándo te gustaría comenzar?": "",
+            "¿Estarías dispuesto a invertir para implementar I.A en tu Inmobiliaria?": "",
+            "Me comprometo a asistir a la sesión puntualmente. Estaré atento/a a mi WhatsApp y correo electrónico para confirmar mi sesión.": "",
+            "Respondio a IA": "",
+            "Confirma Asistencia Call": "",
+            "Confirma Asistencia Chat": "",
+            "Proyect Name": "",
+            "Proyect Type": "",
+            "Location": "",
+            "Entry Price? Place the cost in USD$": "",
+            "Número de unidades": "",
+            "Expected completion date": "",
+            "Amenidades": "",
+            "Amenidades del proyecto": "",
+            "Amenidades de tu proyecto": "",
+            "Número de empleados": "",
+            "Industria": "",
+            "Personal Linkedin URL": "",
+            "Website Leads": "",
+            "Company Linkedin URL": "",
+            "Ciudad": "",
+            "Estados": "",
+            "Pais": "",
+            "Dirección Empresa": "",
+            "Ciudad de la compañia": "",
+            "Estado de la compañia": "",
+            "Pais de la compañia": "",
+            "Contactado por la IA": "",
+            "IP: Quiere ser llamado": "",
+            "ML: Reagendar Link": "",
+            "Si con esta I.A tu agencia pudiera aumentar su ticket de venta y captar más clientes ¿Cuándo te gustaría comenzar?": "",
+            "OP: Pega Tus FAQ": "",
+            "ML: Enlace Meets": "",
+            "IP: Contesta a IA": "",
+            "ML: Fecha & Hora": "",
+            "Cual es tu ticket de venta promedio (Aproximamente)?": "",
+            "Cuentános a DETALLE tu Inmobiliaria, cuantos proyectos tienen, precios, horarios de atención?, etc": "",
+            "OP: Danos un paso a paso de la secuencia que deseas que complete la IA.": "",
+            "OP: Cual es el objetivo final que deseas con la implementación de LLamadas con IA?": "",
+            "Cuantos clientes manejas actualmente en tu agencia?": "",
+            "OP: Alguna información más sobre tu negocio?": "",
+            "Estas dispuesto a invertir para implementar  I.A. en tus servicios?": "",
+            "Objeciones ": "",
+            "ML: Cancelar Link": "",
+            "OP: Cuál es la frase inicial con la que quieres que comience la IA? / EX: \"Hola, hablo con (nombre prospecto)?\" \"(nombre prospecto)?\", etc.": "",
+            "IP: Acepta Cupon": "",
+            "Cual es tu script de ventas Inbound, es decir clientes que los contactan directamente": "",
+            "Información de tus proyectos": "",
+            "Correo con el cual creaste Twillio": "",
+            "Contraseña de Twillio": "",
+            "Script Actual Que Es Usado Para Llamadas Outbound(clientes que llenan formulario de Publicidad) ": "",
+            "RESPUESTA IA": "Claro, aquí tienes el enlace para agendar la reunión: [Agendar Reunión](https://updates.masterleads.pro/widget/bookings/reunion-30-minij2pd0)\n\nSimplemente selecciona el horario que más te convenga. Si tienes alguna pregunta o necesitas asistencia adicional, no dudes en decírmelo. Estoy aquí para ayudar!",
+            "Mensaje enviado": "",
+            "¿Cuántos clientes potenciales estan generando al mes? Escribe un aproximado: Ejemplo: \"1000 clientes potenciales\"": "",
+            "Email Personalizado": "",
+            "Sitio web": "",
+            "Por dónde me conociste?": "",
+            "Idioma": "",
+            "Descripción breve de la empresa y sus actividades": "",
+            "Servicio de interes": "",
+            "¿Cuáles son los principales objetivos que espera lograr con nuestros servicios?": "",
+            "¿Cuáles son los principales desafíos que enfrenta actualmente?  ": "",
+            "What is the company's approximate monthly advertising investment?": "",
+            "How many potential clients are they generating per month? Write an approximate value, for example: \"1000 leads.?": "",
+            "How many salespeople do you currently have on your team?": "",
+            "What is the link to your real estate agency’s current website? If you don’t have one, please provide a link to any social media.*": "",
+            "If you could use this AI to contact leads more effectively and quickly, when would you like to get started?": "",
+            "I commit to attending the session on time. I will keep an eye on my WhatsApp and email to confirm my session.": "",
+            "Would you be willing to invest in implementing AI in your real estate agency?": "",
+            "How did you hear about me?": "",
+            "I commit to attending the session on time. I will keep an eye on my Phone and email to confirm my session": "",
+            "Are you a real estate agent, or are you contacting us on behalf of a real estate agency?": "",
+            "¿Cuál es su rol dentro de la empresa?": "",
+            "¿Cuál es tu Sitio Web?": "",
+            "¿Cuéntame que aspectos te gustaría conversar en la reunion para ver como esta IA se puede adaptar a tu empresa?": "",
+            "¿Cuántas personas conforman tu equipo de trabajo?": "",
+            "¿Cuántas personas conforman tu equipo de trabajo actualmente?\"": "",
+            "¿Qué software de gestión de tareas usas actualmente?": "",
+            "¿Cuales fueron tus avances del día de hoy y especifica el proyecto?": "",
+            "Nombre exacto del Proyecto": "",
+            "¿Cuales fueron los retos del proyecto?": "",
+            "¿Cuantos clientes potenciales estan generando al mes?\t": "",
+            "Nombre de la inmobiliaria\t": "",
+            "¿Cuantos vendedores tienen actualmente en el equipo?\t": "",
+            "¿Cuantos Leads recibes al dia?": "",
+            "Resumen de la llamada": "",
+            "info_whatsapp": "",
+            "Voicemail": "",
+            "Link de la llamada(grabación)": "",
+            "Contesto IA": "",
+            "calidad_alta": "",
+            "calidad baja": "",
+            "Agendo Cita": "",
+            "fecha y hora exacta": "",
+            "Fecha y Hora Volver a Marcar": "",
+            "Volver a llamar": "",
+            "contact_id": "wMiXFY3NvB9j0TBCGGc7",
+            "first_name": "Jesus",
+            "last_name": "Jauregui",
+            "full_name": "Jesus Jauregui",
+            "phone": "+51918503928",
+            "tags": "",
+            "country": "US",
+            "date_created": "2025-04-14T01:28:52.686Z",
+            "full_address": "",
+            "contact_type": "lead",
+            "location": {
+              "name": "Scaleup AI",
+              "address": "30 North Gould Street",
+              "city": "Sheridan",
+              "state": "WY",
+              "country": "US",
+              "postalCode": "82801",
+              "fullAddress": "30 North Gould Street, Sheridan WY 82801",
+              "id": "tIKvRwMVzYT2L32LmoVE"
+            },
+            "message": {
+              "type": 19,
+              "body": "quiero mas informacion de scaleup que ofrecen y precios"
+            },
+            "workflow": {
+              "id": "4056de66-15bf-48e3-9004-356a5890f4b9",
+              "name": "Mensaje enviado-webhook"
+            },
+            "triggerData": {},
+            "contact": {
+              "attributionSource": {
+                "sessionSource": "Social media",
+                "url": null,
+                "medium": "whatsapp",
+                "ctwa_clid": null,
+                "adName": null,
+                "adId": null
+              },
+              "lastAttributionSource": {
+                "sessionSource": "Social media",
+                "url": null,
+                "medium": "whatsapp",
+                "ctwa_clid": null,
+                "adName": null,
+                "adId": null
+              }
+            },
+            "attributionSource": {},
+            "customData": {
+              "message_body": "quiero mas informacion de scaleup que ofrecen y precios",
+              "message_attachments": ""
+            }
+          },
+          "webhookUrl": "https://scalewebhookn8n.uscaleup.ai/webhook-test/beb4e5e0-a15b-4c4d-a302-753fbd080c18",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "4b57bfd0-d38d-4651-ac30-0b15e25e3e29",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:40:46.121Z",
+      "updatedAt": "2025-05-21T16:40:46.121Z",
+      "id": "IdumVHryI0258wsL",
+      "name": "OMNICANAL"
+    },
+    {
+      "createdAt": "2025-05-21T16:40:46.134Z",
+      "updatedAt": "2025-05-21T16:40:46.134Z",
+      "id": "hY92P9vlT9e9Yh6C",
+      "name": "GHL"
+    }
+  ]
+}
