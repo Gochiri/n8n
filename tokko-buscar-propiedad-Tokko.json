@@ -1,0 +1,306 @@
+{
+  "createdAt": "2025-05-21T16:43:57.120Z",
+  "updatedAt": "2025-07-16T15:57:10.489Z",
+  "id": "YubXrCZUWJmf6ZOr",
+  "name": "Tokko Buscar Propiedad",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "91eefda0-1014-494b-9e7c-aa37a4104ae4",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cd7ebe6a-4195-4839-99fb-658299517c7a",
+      "name": "Webhook",
+      "webhookId": "91eefda0-1014-494b-9e7c-aa37a4104ae4"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        960,
+        220
+      ],
+      "id": "f3afde50-ad25-48ad-88af-6a685625c7db",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.tokkobroker.com/api/v1/property/{{ $json.response.text }}/?lang=es_ar&format=json&key=740e9a86e0c6a224ca1358d39fa0335fdecb7175",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        0
+      ],
+      "id": "77f00a99-0ef2-4c7b-a609-5453b4db39b3",
+      "name": "Busca propiedad"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "46960156-308a-4362-88d0-a5d6436f160e",
+              "name": "information",
+              "value": "={{ $json.output.state }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1340,
+        0
+      ],
+      "id": "e2736219-c600-4a85-a7c9-c7294cdceb48",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.description }}",
+        "schemaType": "fromJson",
+        "options": {
+          "systemPromptTemplate": "Elimina los signos de apertura tanto de exclamación como interrogación"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        920,
+        0
+      ],
+      "id": "e48dc459-5464-476c-8840-4458b5afc0b8",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "P – JGH – 16L",
+        "options": {
+          "systemPromptTemplate": "Cuando tenga el codigo Alfanumerico conviertelo al codigo numerico.\nLa respuesta que debes brindar solo es el codigo numerico\n\nLista:\nP – JGH – 06B= 5967308\nP – JGH – 07C= 5967310\nP – JGH – 08D= 5967312\nP – JGH – 09E= 5967314\nP – JGH – 10F= 5967316\nP – JGH – 11G= 5967318\nP – JGH – 12H= 5967320\nP – JGH – 13I= 5967322\nP – JGH – 14J= 5967324\nP – JGH – 15K= 5967326\nP – JGH – 16L= 5967328\nP – JGH – 17M= 5967330\nP – JGH – 18N= 5967332\nP – JGH – 19O= 5967334\nP – JGH – 20P= 5967336\nP – JGH – 21Q= 5967338\nP – JGH – 22R= 5967340\nP – JGH – 23S= 5967342\nP – JGH – 24T= 5967344\nP – JGH – 25U= 5967346\nP – JGH – 26V= 5967348"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.4,
+      "position": [
+        280,
+        0
+      ],
+      "id": "7d9b9bee-5a6d-4ded-bafe-bbc8335d9d69",
+      "name": "Question and Answer Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        260
+      ],
+      "id": "010db414-12ff-472a-8679-53bc21cb03b0",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        400,
+        240
+      ],
+      "id": "c3180d4d-8fc1-4a1b-adc9-ac57077d44ac",
+      "name": "Vector Store Retriever"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1,
+      "position": [
+        340,
+        440
+      ],
+      "id": "efb17028-0d08-41b4-b001-8bce6b9bb5cb",
+      "name": "In-Memory Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        620
+      ],
+      "id": "e72f1b8e-9558-4cff-90aa-294bbdde6bfc",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "4oxG3f16LuqfOHIJ",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca propiedad": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Question and Answer Chain": {
+      "main": [
+        [
+          {
+            "node": "Busca propiedad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "In-Memory Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "In-Memory Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8b69ff68-802b-456a-a099-e11548ddb680",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:43:54.624Z",
+      "updatedAt": "2025-05-21T16:43:54.624Z",
+      "id": "i8WKzHemnuyhAgSz",
+      "name": "Tokko"
+    }
+  ]
+}
