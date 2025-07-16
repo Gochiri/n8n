@@ -1,0 +1,238 @@
+{
+  "createdAt": "2025-05-21T17:17:36.527Z",
+  "updatedAt": "2025-05-21T17:17:41.545Z",
+  "id": "EHOkfqO0rvoiGKq7",
+  "name": "Verifficar_disponibilidad",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "97582aa8-07be-4cff-b522-b97b9f27872e",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getFreeSlots",
+        "calendarId": "WBlWVUwIVY7DTurF3HLi",
+        "startDate": "={{ $json.StartDate }}",
+        "endDate": "={{ $json.EndDate }}",
+        "additionalFields": {
+          "enableLookBusy": true
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        580,
+        0
+      ],
+      "id": "c8a1e692-7a75-4ed8-a40a-96b5d43da5b7",
+      "name": "HighLevel1",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "Icu1wucQH6XJTXx1",
+          "name": "HighLevel SELF HOUSE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "857e91e3-a9ff-40da-8b95-5d56e74f1c6e",
+              "name": "appointment_available_ts",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1480,
+        0
+      ],
+      "id": "6173743d-ec5b-48be-a8b0-73cbc2f7af7b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.horario_disponible }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "## Gestión de Disponibilidad de Citas  \n\n1. **Análisis de Fechas:**  \n   - Evalúa la disponibilidad de citas para la fecha ingresada.  \n   - Si hay disponibilidad, indica el **rango de horas disponibles** en un formato claro y bien vocalizado.  \n   - Si no hay disponibilidad, responde con: **\"Lo siento, no hay horarios disponibles para esa fecha.\"**  \n\n2. **Formato de Respuesta:**  \n   - Si hay citas:  \n     - Ejemplo: **\"Hay disponibilidad desde las diez de la mañana hasta las dos de la tarde y menciona 3 horarios disponibles.\"**  \n   - Si no hay citas:  \n     - Ejemplo: **\"Lo siento, no hay horarios disponibles para esa fecha, pero tengo otros hoarios disponibles menciona 3 horarios disponibles\"**  \n\n3. **Normas de Comunicación:**  \n   - Siempre vocaliza las horas correctamente, evitando números en formato digital.  \n   - No uses tecnicismos ni respuestas genéricas.  \n   - Sé claro y directo.  \n"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1080,
+        0
+      ],
+      "id": "430b89d9-bd66-446c-96a4-31b18bda18ad",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1080,
+        220
+      ],
+      "id": "4aae74f6-2f9d-42d9-a542-4892a644fccc",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "957c2c57-bc2c-4357-85ce-b0fb212d3e8c",
+              "name": "StartDate",
+              "value": "={{ new Date($json.body.args.date + 'T00:00:00Z').getTime() }}",
+              "type": "string"
+            },
+            {
+              "id": "6adbaca9-36a3-4739-bd96-c25105037ea3",
+              "name": "EndDate",
+              "value": "={{ new Date($json.body.args.date + 'T23:59:59Z').getTime() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        300,
+        0
+      ],
+      "id": "912c832d-655a-46ee-ba6a-d567e40523a5",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener los datos de entrada del nodo anterior\nconst inputData = $json;\n\n// Extraemos la fecha clave (ej. \"2025-02-04\")\nconst fecha = Object.keys(inputData)[0];\n\n// Verificamos si la fecha y los slots existen\nconst slots = inputData[fecha]?.slots;\n\n// Determinamos la respuesta\nconst horario_disponible = slots && slots.length > 0 ? slots.join(\", \") : \"no hay horarios\";\n\n// Retornamos el resultado\nreturn [{ json: { horario_disponible } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        840,
+        0
+      ],
+      "id": "06148ab0-1ecf-495f-84c8-143ece4af3f7",
+      "name": "Code"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HighLevel1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "HighLevel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6276e158-d9da-4aa2-8d61-4ce3fe96d39e",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T16:40:46.134Z",
+      "updatedAt": "2025-05-21T16:40:46.134Z",
+      "id": "hY92P9vlT9e9Yh6C",
+      "name": "GHL"
+    }
+  ]
+}
