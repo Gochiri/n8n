@@ -1,0 +1,1628 @@
+{
+  "createdAt": "2025-07-12T14:39:35.323Z",
+  "updatedAt": "2025-07-13T22:50:53.951Z",
+  "id": "1FlZz0MtyMZh9Q0Y",
+  "name": "MCP_Server",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to create a task. Make sure to get the contactId first. Always make sure the field completed is in boolean not string\n",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/contacts/{contactId}/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "title"
+            },
+            {
+              "name": "dueDate"
+            },
+            {
+              "name": "completed"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "this is the contact ID to be set. in the path paramater",
+              "type": "string"
+            },
+            {
+              "name": "completed",
+              "description": "updated",
+              "type": "boolean"
+            }
+          ]
+        },
+        "optimizeResponse": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1460,
+        760
+      ],
+      "id": "955eb3aa-4c67-4fea-9856-929a9aa8bed0",
+      "name": "Create Task",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to get a task. Make sure to get the contactId first. Get the taskID \n\nvEmbjSGhenjfn4Es5qjT\n\n{\n  \"task\": {\n    \"id\": \"...\",\n    \"title\": \"...\",\n    \"body\": \"...\",\n    \"assignedTo\": \"...\",\n    \"dueDate\": \"...\",\n    \"completed\": true,\n    \"contactId\": \"...\"\n  }\n}\n\n### ✅ Task Management\n**Create Task → Create Task**\n- Use after calls, demos, or meetings.\n- Requires: contactId, title, dueDate, and completed (true or false).\n- Format dueDate in full ISO 8601 format: YYYY-MM-DDTHH:MM:SS±HH:MM\n",
+        "url": "https://services.leadconnectorhq.com/contacts/{contactId}/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "this is the contact ID to be set. in the pathparamater",
+              "type": "string"
+            }
+          ]
+        },
+        "optimizeResponse": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1600,
+        760
+      ],
+      "id": "bf384999-c122-4ead-b04d-334c162ac0ca",
+      "name": "Get Task",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "use this to update tasks. Always get the task ID from another tool first. ",
+        "method": "PUT",
+        "url": "https://services.leadconnectorhq.com/contacts/{contactId}/tasks/{taskId}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "title"
+            },
+            {
+              "name": "body"
+            },
+            {
+              "name": "completed"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "taskId",
+              "description": "the id of the task",
+              "type": "string"
+            },
+            {
+              "name": "contactId",
+              "description": "the contact id ",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1320,
+        760
+      ],
+      "id": "44a715c6-ecb4-4947-bed6-e8d7a2c66053",
+      "name": "Update Tasks",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create an opportunity in GoHighLevel. Requires title, pipelineId, and stageId.",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/opportunities",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "pipelineId"
+            },
+            {
+              "name": "pipelineStageId",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "contactId"
+            },
+            {
+              "name": "monetaryValue",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "assignedTo",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "status"
+            },
+            {
+              "name": "title"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "id",
+              "description": "The opportunity id",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        120,
+        1160
+      ],
+      "id": "114dfe7c-5173-46a4-a054-04e7033c7ab0",
+      "name": "Create Opportunity",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this to delete events on the calendar. You must get the event Id ",
+        "method": "DELETE",
+        "url": "https://services.leadconnectorhq.com/calendars/events/{eventId}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "parametersQuery": {
+          "values": [
+            {
+              "name": "eventId"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-04-15"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "model",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "eventId",
+              "description": "=the calendar event Id",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1280,
+        1160
+      ],
+      "id": "28c08c12-db31-4fc1-b510-637dbbe0c6d5",
+      "name": "Delete Appointments",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Contacts Tool",
+        "height": 240,
+        "width": 600,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1680,
+        280
+      ],
+      "typeVersion": 1,
+      "id": "1c478d5e-8d99-449b-85d4-d100fc18a255",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Tasks Tools",
+        "height": 260,
+        "width": 440,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1640,
+        660
+      ],
+      "typeVersion": 1,
+      "id": "09f4052a-b14a-4b26-a038-7fcf1809698e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Appointments Tools",
+        "height": 260,
+        "width": 460,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1620,
+        1060
+      ],
+      "typeVersion": 1,
+      "id": "af894e51-67c9-4f7d-8383-00a4590da96f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Send SMS",
+        "height": 260,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1000,
+        1160
+      ],
+      "typeVersion": 1,
+      "id": "8f64d850-d4a7-4bf0-81cd-05be18e2ef7b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Update Conversation",
+        "height": 260,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -720,
+        1160
+      ],
+      "typeVersion": 1,
+      "id": "b4f12627-a5e8-4f2e-b683-a75e39e135b3",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Tag Tools",
+        "height": 260,
+        "width": 360
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        1160
+      ],
+      "typeVersion": 1,
+      "id": "2d54e483-fc23-41f2-998b-d7d0d0ff1117",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Opportunity Tools",
+        "height": 260,
+        "width": 620,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        60,
+        1060
+      ],
+      "typeVersion": 1,
+      "id": "f90fda2a-bb5a-429d-8fc7-8804a7bc0306",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Add and Remove Workflows",
+        "height": 260,
+        "width": 390,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        780,
+        740
+      ],
+      "typeVersion": 1,
+      "id": "5eb4e3c5-8d5c-4a65-b2a9-e6f1da93bd0c",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## Outbound Call",
+        "height": 260,
+        "width": 210,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        460,
+        380
+      ],
+      "typeVersion": 1,
+      "id": "50d3e197-72bc-4cdd-8f72-4d3d10a8e178",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Search for contacts",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/contacts/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            },
+            {
+              "name": "pageLimit",
+              "valueProvider": "fieldValue",
+              "value": "={{ Number(1) }}"
+            },
+            {
+              "name": "query"
+            }
+          ]
+        },
+        "optimizeResponse": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1640,
+        360
+      ],
+      "id": "1bdbc5ae-ed9e-4edd-b2f5-ef3c78f4bc32",
+      "name": "Search Contacts",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create a contact",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            },
+            {
+              "name": "name",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "email",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "phone",
+              "valueProvider": "modelOptional"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1500,
+        360
+      ],
+      "id": "931f1d51-047c-468f-91e0-0e33d07c214a",
+      "name": "Create Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Used to update existing contacts.",
+        "method": "PUT",
+        "url": "https://services.leadconnectorhq.com/contacts/{contactId}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "name",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "phone",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "email",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "address1"
+            },
+            {
+              "name": "state"
+            },
+            {
+              "name": "city"
+            },
+            {
+              "name": "postalCode"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "This is the contact ID for an existing contact record. You can find this id by using the searchContacts tool.",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1360,
+        360
+      ],
+      "id": "56728f5d-4660-47a3-8416-6b65e0c7f3e7",
+      "name": "Update Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "use this tool to book an appointment",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/calendars/events/appointments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-04-15"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "calendarId",
+              "valueProvider": "fieldValue",
+              "value": "9V8o2eje05hSsXViLAkQ"
+            },
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            },
+            {
+              "name": "email",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "startTime"
+            },
+            {
+              "name": "endTime"
+            },
+            {
+              "name": "contactId"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "This is the contact ID for an existing contact record. You can find this id by using the searchContacts tool.",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1580,
+        1160
+      ],
+      "id": "d2529533-558c-477c-bc74-d1e4fef08f26",
+      "name": "Book An Appointment",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Query appointments for contactId.",
+        "url": "=https://services.leadconnectorhq.com/contacts/{contactId}/appointments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "The contact ID for the user in our CRM. Use searchContacts to retrieve it.",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1440,
+        1160
+      ],
+      "id": "388a5faf-60c9-4685-85ac-967b14bf3191",
+      "name": "Get Appointments For Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "send a text message to a contact\n\nAlways send from this number:+15614677499",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/conversations/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-04-15"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "type",
+              "valueProvider": "fieldValue",
+              "value": "SMS"
+            },
+            {
+              "name": "contactId"
+            },
+            {
+              "name": "message"
+            },
+            {
+              "name": "fromNumber",
+              "valueProvider": "fieldValue",
+              "value": "+15614677499"
+            },
+            {
+              "name": "toNumber"
+            }
+          ]
+        },
+        "optimizeResponse": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -960,
+        1260
+      ],
+      "id": "c054539f-b6f5-4f7c-b446-779e315f81a3",
+      "name": "Send SMS",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "Server"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        400
+      ],
+      "id": "e4249c0b-cd79-49a9-9d36-e77237d235e2",
+      "name": "High Level MCP Server",
+      "webhookId": "69f7582d-9695-440e-8f50-ef9050adf9f4",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "toolDescription": "Add tags to a contact in GoHighLevel. Requires contactId and at least one tag to add.",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/contacts/{contactId}/tags",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"tags\": [\"{tag}\"]\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "The contact ID to add tags to. Must be obtained first using searchContacts.",
+              "type": "string"
+            },
+            {
+              "name": "tag",
+              "description": "The tag to add to the contact. Tags should be normalized to lowercase.",
+              "type": "string"
+            }
+          ]
+        },
+        "optimizeResponse": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -360,
+        1260
+      ],
+      "id": "310f59ec-a2ea-47df-8d1d-e68cd72688b7",
+      "name": "Add Tag",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Removes tags from a contact in GoHighLevel. Requires contactId and at least one tag to remove.",
+        "method": "DELETE",
+        "url": "https://services.leadconnectorhq.com/contacts/{contactId}/tags",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"tags\": [\"{tag}\"]\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "The contact ID to add tags to. Must be obtained first using searchContacts.",
+              "type": "string"
+            },
+            {
+              "name": "tag",
+              "description": "The tag to add to the contact. Tags should be normalized to lowercase.",
+              "type": "string"
+            }
+          ]
+        },
+        "optimizeResponse": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -180,
+        1260
+      ],
+      "id": "e8a095c2-c679-4e2e-9e93-43a4db13ba73",
+      "name": "Remove Tags",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Google Maps Scraper",
+        "height": 260,
+        "width": 300,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "33eaca95-60b3-4853-8561-749dc692d0e3",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        180
+      ],
+      "id": "84b490ae-c673-4c8a-98f0-3579a0f37c62",
+      "name": "Send Email",
+      "webhookId": "c5213de5-855e-49bd-9f5d-d4fb667c003c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "VwaWtH7mbGTJdN45",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Send Gmail",
+        "height": 260,
+        "width": 180,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        660,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "b3ed4635-9593-4d5f-8ce8-98b601b3e3eb",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Get an opportunity in GoHighLevel. ",
+        "url": "https://services.leadconnectorhq.com/opportunities/{id}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "id",
+              "description": "The opportunity id",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        260,
+        1160
+      ],
+      "id": "226c4a93-5103-47e1-a5a8-71f470bfce15",
+      "name": "Get Opportunity",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Delete an opportunity in GoHighLevel.",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/opportunities",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "pipelineId"
+            },
+            {
+              "name": "stageId"
+            },
+            {
+              "name": "contactId",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "monetaryValue",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "assignedTo",
+              "valueProvider": "modelOptional"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        1160
+      ],
+      "id": "7aa2d858-9a4b-4b5e-a30c-280604b46e3d",
+      "name": "Delete Opportunity",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create an opportunity in GoHighLevel. Requires title, pipelineId, and stageId.",
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/opportunities",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "pipelineId"
+            },
+            {
+              "name": "stageId"
+            },
+            {
+              "name": "contactId",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "monetaryValue",
+              "valueProvider": "modelOptional"
+            },
+            {
+              "name": "assignedTo",
+              "valueProvider": "modelOptional"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        560,
+        1160
+      ],
+      "id": "0b0dcf96-5fa8-4921-90b7-f7274745ac83",
+      "name": "Update Opportunity",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Update user info from GoHighLevel. Update the user information for a specifc contact.",
+        "url": "https://services.leadconnectorhq.com/users/{userId}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "parametersQuery": {
+          "values": [
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -660,
+        1260
+      ],
+      "id": "c4a1abb8-58a2-46ce-83c6-4fff4bc76057",
+      "name": "Update Conversation",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        840,
+        840
+      ],
+      "id": "3a6375a1-f070-4233-9344-bc7b01d70886",
+      "name": "Add Workflow",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        840
+      ],
+      "id": "96735bc8-ed71-4f11-bca4-6dde9abbc3bf",
+      "name": "Remove Workflow",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to store the leads from google maps and store it in CSV make sure to send the city and country correctly based on the user requirement if the city or country doesn't exist send empty string",
+        "workflowId": {
+          "__rl": true,
+          "value": "aBkQOQnFzBthvczg",
+          "mode": "list",
+          "cachedResultName": "GMPScraping"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "city": "={{ $fromAI(\"CityRequested\")}}",
+            "country": "={{ $fromAI(\"CountryRequested\")}}",
+            "keywords": "={{ $fromAI(\"KeywordSepratedByComma\")}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "city",
+              "displayName": "city",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keywords",
+              "displayName": "keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        140,
+        40
+      ],
+      "id": "e2de9cf2-55f8-4ea8-b238-677648fe1b88",
+      "name": "Scrape Google Maps and store in CSV"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to call using Retell AI, Before calling this tool make sure that you have the prospect's contact information using the SearchContact",
+        "method": "POST",
+        "url": "https://api.retellai.com/v2/create-phone-call",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer key_97a90d76b06f30697e806e642a4c"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"from_number\": \"+15614677734\",\n  \"to_number\": \"{{ $fromAI(\"NumberOfTheProspect\") }}\",\n  \"override_agent_id\": \"agent_1233a5fa394fe5ff6d7df1a538\",\n  \"override_agent_version\": 11,\n  \"metadata\": {},\n  \"retell_llm_dynamic_variables\": {\n    \"customer_name\": \"{{ $fromAI(\"NameOfTheProspect\") }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        480
+      ],
+      "id": "694bde7c-1532-4fad-911c-c9f4f4a225ba",
+      "name": "Outbound Call"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Delete contact by contact Id",
+        "method": "DELETE",
+        "url": "https://services.leadconnectorhq.com/contacts/{contactId}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Version",
+              "valueProvider": "fieldValue",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {
+              "name": "locationId",
+              "valueProvider": "fieldValue",
+              "value": "ov9YQ7INpTdiLggLSGFg"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "contactId",
+              "description": "The contact ID of the existing contact ",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -1200,
+        360
+      ],
+      "id": "546053ed-5147-4f1f-ab80-c3ddde7c5b99",
+      "name": "Delete Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HtbynqinQRyfqj48",
+          "name": "GHL MCP"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Create Task": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Task": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Opportunity": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Appointments": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Contacts": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Contact": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Contact": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Book An Appointment": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Appointments For Contact": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send SMS": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Tag": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Tags": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Opportunity": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Opportunity": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Opportunity": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Conversation": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Workflow": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Workflow": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Google Maps and store in CSV": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Outbound Call": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Contact": {
+      "ai_tool": [
+        [
+          {
+            "node": "High Level MCP Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "52beae67-29cf-421f-9ad8-e8e096c9c638",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-05-21T17:26:06.756Z",
+      "updatedAt": "2025-05-21T17:26:06.756Z",
+      "id": "YXJFxP8qF0PqRYjJ",
+      "name": "MCP"
+    }
+  ]
+}
